@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="AntTasks" basedir="." default="jar">
+
+    <property name="src.dir" value="src"/>
+    <property name="classes.dir" value="classes"/>
+
+    <target name="clean" description="Delete all generated files">
+        <delete dir="${classes.dir}" failonerror="false"/>
+        <delete file="${ant.project.name}.jar"/>
+    </target>
+
+    <target name="compile" description="Compiles the Task">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}"> 
+        	<classpath>
+        		<pathelement location="lib\aws-java-sdk-1.4.7.jar" />
+        	</classpath>
+        </javac>
+    </target>
+
+    <target name="jar" description="JARs the Task" depends="compile">
+        <jar destfile="${ant.project.name}.jar" basedir="${classes.dir}"/>
+    </target>
+	
+    <!-- ================================= 
+          target: name              
+         ================================= -->
+    <target name="test" description="test the ant lib">
+    	 <taskdef name="GetString"
+    	                 classname="net.cazzar.ant.tasks.GetString"
+    	                 classpath="${ant.project.name}.jar"/>
+        <GetString url="http://mclauncher.cazzar.net/" />
+    </target>
+
+</project>
